@@ -1,29 +1,18 @@
 pragma solidity ^0.5.11;
-import "../SafeMath.sol";
+import "./SafeMath.sol";
 
 
-contract TestERC20 {
+contract ERC20 {
   using SafeMath for uint256;
+
+  mapping (address => uint256) public balanceOf;
+  mapping (address => mapping (address => uint256)) public allowance;
 
   event Transfer(address indexed from, address indexed to, uint256 value);
   event Approval(address indexed owner, address indexed spender, uint256 value);
 
-  string public name;
-  string public symbol;
-  uint256 public decimals;
   uint256 public totalSupply;
   uint256 internal constant MAX_UINT256 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
-  mapping (address => uint256) public balanceOf;
-  mapping (address => mapping (address => uint256)) public allowance;
-
-
-  constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 supply) public {
-    name = _name;
-    symbol = _symbol;
-    decimals = _decimals;
-    totalSupply = supply;
-    balanceOf[msg.sender] = supply;
-  }
 
   function transfer(address to, uint256 value) public returns (bool) {
     balanceOf[msg.sender] = balanceOf[msg.sender].sub(value);
